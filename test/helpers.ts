@@ -15,7 +15,7 @@ export function helpers (deepStrictEqual: Function, ok: Function) {
         return deepStrictEqual(Number.isNaN(actual), true, message)
       }
     
-      return deepStrictEqual(actual, expected, message)
+      return deepStrictEqual(actual, expected, `${message}\nactual: ${JSON.stringify(actual)}\nexpected: ${JSON.stringify(expected)}`)
     },
 
     hex2arrayBuffer (data: string) {

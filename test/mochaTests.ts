@@ -11,11 +11,13 @@ export function mochaTests (testcases: any[][], cborImport: any, helpers: any, a
       const binaryDifference = testcase[3]
   
       it(name, () => {
-        myDeepEqual(CBOR.decode(hex2arrayBuffer(data)), expected, 'Decoding')
+        const tagger = (value: any, tag: number) => new TaggedValue(value, tag);
+
+        myDeepEqual(CBOR.decode(hex2arrayBuffer(data), tagger), expected, 'Decoding')
   
         const encoded = CBOR.encode(expected)
   
-        myDeepEqual(CBOR.decode(encoded), expected, 'Encoding (deepEqual)')
+        myDeepEqual(CBOR.decode(encoded, tagger), expected, 'Encoding (deepEqual)')
   
         if (!binaryDifference) {
           let hex = ''
@@ -29,7 +31,7 @@ export function mochaTests (testcases: any[][], cborImport: any, helpers: any, a
         }
       })
     }
-  
+
     it('Big Array', () => {
       const value = new Array(0x10001)
   
